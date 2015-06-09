@@ -26,11 +26,6 @@ RUN mkdir -p \
 COPY minidlna.conf /etc/minidlna.conf
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN groupadd -r user && \
-    useradd -r -g user user
-
-USER user
-
 VOLUME /data/media
 EXPOSE 8200 1900/udp
 
