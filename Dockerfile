@@ -13,11 +13,6 @@ RUN apt-get update && apt-get install -y \
     wget \
     && apt-get build-dep minidlna -y
 
-RUN groupadd -r user && \
-    useradd -r -g user user
-
-USER user
-
 # Download, unpack, and compile minidlna
 RUN mkdir -p \
     /usr/src/minidlna \
@@ -30,6 +25,11 @@ RUN mkdir -p \
 # Configuration
 COPY minidlna.conf /etc/minidlna.conf
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+RUN groupadd -r user && \
+    useradd -r -g user user
+
+USER user
 
 VOLUME /data/media
 EXPOSE 8200 1900/udp
