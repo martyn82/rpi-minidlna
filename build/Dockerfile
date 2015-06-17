@@ -13,10 +13,15 @@ RUN echo "deb-src http://archive.raspbian.org/raspbian wheezy main contrib non-f
 
 # Update and install dependencies
 RUN apt-get update && apt-get install -y \
+    libexif-dev \
+    libflac-dev \
+    libid3tag0-dev \
+    libjpeg-dev \
+    libsqlite3-dev \
+    libvorbis-dev \
     supervisor \
     tar \
-    wget \
-    && apt-get build-dep minidlna -y
+    wget
 
 # Download, unpack, and compile minidlna
 RUN mkdir -p \
