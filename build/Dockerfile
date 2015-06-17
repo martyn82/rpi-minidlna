@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
 # Download, unpack, and compile minidlna
 RUN mkdir -p \
     ~/minidlna \
-    && wget -O ~/minidlna/minidlna-1.1.4.tar.gz http://sourceforge.net/projects/minidlna/files/minidlna/1.1.4/minidlna-1.1.4.tar.gz \
+    && wget --no-check-certificate -O ~/minidlna/minidlna-1.1.4.tar.gz http://sourceforge.net/projects/minidlna/files/minidlna/1.1.4/minidlna-1.1.4.tar.gz \
     && cd ~/minidlna \
     && tar -xvf minidlna-1.1.4.tar.gz \
     && cd minidlna-1.1.4 \
