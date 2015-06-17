@@ -13,7 +13,6 @@ RUN echo "deb-src http://archive.raspbian.org/raspbian wheezy main contrib non-f
 
 # Update and install dependencies
 RUN apt-get update && apt-get install -y \
-    supervisor \
     tar \
     wget \
     && apt-get build-dep minidlna -y
