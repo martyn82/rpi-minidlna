@@ -20,16 +20,15 @@ RUN apt-get update && apt-get install -y \
 
 # Download, unpack, and compile minidlna
 RUN mkdir -p \
-    ~/minidlna \
-    && wget --no-check-certificate -O ~/minidlna/minidlna-1.1.4.tar.gz http://sourceforge.net/projects/minidlna/files/minidlna/1.1.4/minidlna-1.1.4.tar.gz \
-    && cd ~/minidlna \
+    /minidlna \
+    && wget --no-check-certificate -O /minidlna/minidlna-1.1.4.tar.gz http://sourceforge.net/projects/minidlna/files/minidlna/1.1.4/minidlna-1.1.4.tar.gz \
+    && cd /minidlna \
     && tar -xvf minidlna-1.1.4.tar.gz \
     && cd minidlna-1.1.4 \
     && ./configure && make
 
-RUN cd ~/minidlna \
+RUN cd /minidlna \
     && mv minidlna-1.1.4 minidlna \
-    && tar -zcf minidlnad.tar.gz minidlna \
-    && mkdir -p /build/bin
+    && tar -zcf minidlnad.tar.gz minidlna
 
-CMD cp ~/minidlna/minidlnad.tar.gz /build/bin/minidlnad.tar.gz
+CMD cp /minidlna/minidlnad.tar.gz /build/minidlnad.tar.gz
