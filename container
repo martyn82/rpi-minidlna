@@ -21,7 +21,7 @@ CMD_STOP="docker stop $(docker ps -aq --filter=[name=$CNT])"
 CMD_STATUS="docker ps"
 
 CMD_BUILD="docker build -t $CNT-build ./build"
-CMD_BUILD_RUN="docker run --rm=true -v $(pwd)/dist:/build $CNT-build"
+CMD_BUILD_RUN="docker run --rm=true -v $(pwd)/dist/bin:/build $CNT-build"
 CMD_BUILD_DIST="docker build -t $CNT ./dist"
 CMD_CLEAN="docker rm -f $CNT-build"
 CMD_CLEAN_IMG="docker rmi $CNT-build"
@@ -30,14 +30,15 @@ case "$CMD" in
     start )
         $CMD_START ;;
     stop )
-         $CMD_STOP ;;
+        $CMD_STOP ;;
     build )
-         $CMD_BUILD && \
-         $CMD_BUILD_RUN && \
-         $CMD_BUILD_DIST ;;
+        mkdir -p $(pwd)/dist/bin && \
+        $CMD_BUILD && \
+        $CMD_BUILD_RUN && \
+        $CMD_BUILD_DIST ;;
     clean )
         $CMD_CLEAN 2> /dev/null ; \
         $CMD_CLEAN_IMG ;;
     status )
-         $CMD_STATUS | grep $CNT || echo "Not running" ;;
+        $CMD_STATUS | grep $CNT || echo "Not running" ;;
 esac
