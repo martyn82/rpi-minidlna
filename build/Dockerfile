@@ -1,7 +1,12 @@
+# This Dockerfile creates a containerized minidlna build instance.
+# It will compile and package a minidlna application.
+
 FROM resin/rpi-raspbian:wheezy
 MAINTAINER Martijn Endenburg <martijn.endenburg@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
+
+VOLUME /build
 
 # Add source repository
 RUN echo "deb-src http://archive.raspbian.org/raspbian wheezy main contrib non-free" | tee -a /etc/apt/sources.list
@@ -15,19 +20,15 @@ RUN apt-get update && apt-get install -y \
 
 # Download, unpack, and compile minidlna
 RUN mkdir -p \
-    /usr/src/minidlna \
-    && wget -O /usr/src/minidlna/minidlna-1.1.4.tar.gz http://sourceforge.net/projects/minidlna/files/minidlna/1.1.4/minidlna-1.1.4.tar.gz \
-    && cd /usr/src/minidlna \
+    ~/minidlna \
+    && wget -O ~/minidlna/minidlna-1.1.4.tar.gz http://sourceforge.net/projects/minidlna/files/minidlna/1.1.4/minidlna-1.1.4.tar.gz \
+    && cd ~/minidlna \
     && tar -xvf minidlna-1.1.4.tar.gz \
     && cd minidlna-1.1.4 \
-    && ./configure && make && make install
+    && ./configure && make
 
-# Configuration
-COPY minidlna.conf /etc/minidlna.conf
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN cd ~/minidlna \
+    && mv minidlna-1.1.4 minidlna \
+    && tar -zcf minidlnad.tar.gz minidlna
 
-VOLUME /data/media
-EXPOSE 8200 1900/udp
-
-# Entrypoint
-CMD ["/usr/bin/supervisord"]
+CMD cp ~/minidlna/minidlnad.tar.gz /build/bin/minidlnad.tar.gz
