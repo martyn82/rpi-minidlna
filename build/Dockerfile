@@ -29,6 +29,7 @@ RUN mkdir -p \
 
 RUN cd ~/minidlna \
     && mv minidlna-1.1.4 minidlna \
-    && tar -zcf minidlnad.tar.gz minidlna
+    && tar -zcf minidlnad.tar.gz minidlna \
+    && mkdir -p /build/bin
 
 CMD cp ~/minidlna/minidlnad.tar.gz /build/bin/minidlnad.tar.gz
